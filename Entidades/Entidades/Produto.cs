@@ -1,6 +1,7 @@
 ﻿using Entidades.Notificacoes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -11,9 +12,11 @@ namespace Entidades.Entidades
     [Table("TB_PRODUTO")]
     public class Produto : Notifica
     {
+        [Key]
         [Column("ID_COD_PRODUTO")]
         public int CodigoProduto { get; set; }
 
+        [Required]
         [Column("DESCRICAO_PRODUTO")]
         public string DescricaoProduto { get; set; }
 
