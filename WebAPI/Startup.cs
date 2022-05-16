@@ -45,14 +45,12 @@ namespace WebAPI
             //Interfaces e repositórios
             services.AddSingleton(typeof(IGenericos<>), typeof(RepositorioGenerico<>));
             services.AddSingleton<IProduto, RepositorioProduto>();
-            services.AddSingleton<IUsuario, RepositorioUsuario>();
 
             //Serviços Domínio
             services.AddSingleton<IServicoProduto, ServicoProduto>();
 
             //Interface Aplicação
             services.AddSingleton<IAplicacaoProduto, AplicacaoProduto>();
-            services.AddSingleton<IAplicacaoUsuario, AplicacaoUsuario>();
 
 
 
