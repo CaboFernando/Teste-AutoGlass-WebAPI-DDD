@@ -1,6 +1,17 @@
+using Aplicacao.Aplicacoes;
+using Aplicacao.Interfaces;
+using Dominio.Interfaces;
+using Dominio.Interfaces.Genericos;
+using Dominio.Interfaces.InterfacesServicos;
+using Dominio.Servicos;
+using Entidades.Entidades;
+using Infra.Configuracoes;
+using Infra.Repositorio;
+using Infra.Repositorio.Genericos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +36,21 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<Contexto>(options =>
+                options.UseSqlServer(
+                        Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDefaultIdentity<ApplicationUser>(option => option.SignIn.RequireConfirmedAccount = false)
+                .AddEntityFrameworkStores<Contexto>();
+
+            //Interfaces e repositórios
+            services.AddSingleton(typeof(IGenericos<>), typeof(RepositorioGenerico<>));
+            services.AddSingleton<IProduto, RepositorioProduto>();
+
+            //Serviços Domínio
+            services.AddSingleton<IServicoProduto, ServicoProduto>();
+
+            //Interface Aplicação
+            services.AddSingleton<IAplicacaoProduto, AplicacaoProduto>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
