@@ -12,5 +12,9 @@ namespace Dominio.Interfaces
     public interface IProduto : IGenericos<Produto>
     {
         Task<List<Produto>> ListarProdutos(Expression<Func<Produto, bool>> exProduto);
+        Task<Produto> BuscaPorCodigo(int id);
+        Task<bool> AdicionaProduto(Produto produto);
+        Task<bool> AtualizaProduto(Produto produto);
+        Task<bool> RemoveProduto(Produto produto);
     }
 }
