@@ -24,45 +24,53 @@ namespace WebAPI.Controllers
             return Ok(await _IAplicacaoProduto.BuscaPorCodigo(codigo));
         }
 
-        //[HttpGet()]
-        //public async Task<IActionResult> ListarProdutoAtivos()
-        //{
-        //    return Ok(await _IAplicacaoProduto.ListarProdutoAtivos());
-        //}
+        [HttpGet()]
+        public async Task<IActionResult> ListarProdutoAtivos()
+        {
+            return Ok(await _IAplicacaoProduto.ListarProdutoAtivos());
+        }
 
-        //[HttpPost()]
-        //public async Task<IActionResult> AdicionaProduto([FromBody] Produto produto)
-        //{
-        //    try
-        //    {
-        //        await _IAplicacaoProduto.AdicionaProduto(produto);
-        //        return Ok();
-        //    }
-        //    catch (System.Exception)
-        //    {
-        //        return BadRequest();
-        //    }
-            
-        //}
+        [HttpPost()]
+        public async Task<IActionResult> AdicionaProduto([FromBody] Produto produto)
+        {
+            try
+            {
+                await _IAplicacaoProduto.AdicionaProduto(produto);
+                return Ok("Produto adicionado com sucesso");
+            }
+            catch (System.Exception)
+            {
+                return BadRequest("Erro ao adicionar o produto");
+            }
 
-        //[HttpPut()]
-        //public async Task<IActionResult> AtualizaProduto([FromBody] Produto produto)
-        //{
-        //    try
-        //    {
-        //        await _IAplicacaoProduto.AtualizaProduto(produto);
-        //        return Ok();
-        //    }
-        //    catch (System.Exception)
-        //    {
-        //        return BadRequest();
-        //    }
-        //}
+        }
 
-        //[HttpPut()]
-        //public async Task<IActionResult> RemoveProduto([FromBody] Produto produto)
-        //{
-        //    return Ok(await _IAplicacaoProduto.RemoveProduto(produto));
-        //}
+        [HttpPut()]
+        public async Task<IActionResult> AtualizaProduto([FromBody] Produto produto)
+        {
+            try
+            {
+                await _IAplicacaoProduto.AtualizaProduto(produto);
+                return Ok("Produto atualizado com sucesso");
+            }
+            catch (System.Exception)
+            {
+                return BadRequest("Erro ao atualizar o produto");
+            }
+        }
+
+        [HttpPut("/api/RemoveProduto")]
+        public async Task<IActionResult> RemoveProduto([FromBody] Produto produto)
+        {
+            try
+            {
+                await _IAplicacaoProduto.RemoveProduto(produto);
+                return Ok("Produto removido com sucesso");
+            }
+            catch (System.Exception)
+            {
+                return BadRequest("Erro ao remover o produto");
+            }
+        }
     }
 }
