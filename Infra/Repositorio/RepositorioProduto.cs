@@ -65,7 +65,7 @@ namespace Infra.Repositorio
         {
             try
             {
-                await AtualizaProduto(produto);
+                await Atualizar(produto);
                 return true;
             }
             catch (Exception)

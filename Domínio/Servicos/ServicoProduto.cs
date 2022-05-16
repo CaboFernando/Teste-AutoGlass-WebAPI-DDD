@@ -24,7 +24,7 @@ namespace Dominio.Servicos
             var validarDatas = produto.ValidarDataMaiorQueOutra(produto.DataFrabricacao, produto.DataValidade, "DataFrabricacao", "DataValidade");
             if (validarDescricao && validarDatas)
             {
-                await _produto.Adicionar(produto);
+                await _produto.AdicionaProduto(produto);
             }
         }
 
@@ -35,13 +35,23 @@ namespace Dominio.Servicos
             var validarDatas = produto.ValidarDataMaiorQueOutra(produto.DataFrabricacao, produto.DataValidade, "DataFrabricacao", "DataValidade");
             if (validarCodigo && validarDescricao && validarDatas)
             {
-                await _produto.Atualizar(produto);
+                await _produto.AtualizaProduto(produto);
             }
         }
 
         public async Task<List<Produto>> ListarProdutoAtivos()
         {
             return await _produto.ListarProdutos(x => x.SituacaoProduto);
+        }
+
+        public async Task<Produto> BuscaPorCodigo(int id)
+        {
+            return await _produto.BuscaPorCodigo(id);
+        }
+
+        public async Task<bool> RemoveProduto(Produto produto)
+        {
+            return await _produto.RemoveProduto(produto);
         }
     }
 }
