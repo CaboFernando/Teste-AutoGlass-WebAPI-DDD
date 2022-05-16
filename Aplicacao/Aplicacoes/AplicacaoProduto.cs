@@ -43,9 +43,9 @@ namespace Aplicacao.Aplicacoes
             return await _IServicoProduto.BuscaPorCodigo(id);
         }
 
-        public async Task<bool> RemoveProduto(Produto produto)
+        public async Task RemoveProduto(Produto produto)
         {
-            return await _IServicoProduto.RemoveProduto(produto);
+            await _IServicoProduto.RemoveProduto(produto);
         }
 
         #endregion

@@ -14,6 +14,6 @@ namespace Aplicacao.Interfaces
         Task AtualizaProduto(Produto produto);
         Task<List<Produto>> ListarProdutoAtivos();
         Task<Produto> BuscaPorCodigo(int id);
-        Task<bool> RemoveProduto(Produto produto);
+        Task RemoveProduto(Produto produto);
     }
 }
