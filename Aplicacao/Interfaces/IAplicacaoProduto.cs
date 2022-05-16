@@ -1,4 +1,5 @@
 ﻿using Aplicacao.Interfaces.Genericos;
+using Aplicacao.ViewModels;
 using Entidades.Entidades;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace Aplicacao.Interfaces
 {
-    public interface IAplicacaoProduto : IGenericaAplicacao<Produto>
+    public interface IAplicacaoProduto : IGenericaAplicacao<ProdutoViewModel>
     {
-        Task AdicionaProduto(Produto produto);
-        Task AtualizaProduto(Produto produto);
-        Task<List<Produto>> ListarProdutoAtivos();
-        Task<Produto> BuscaPorCodigo(int id);
-        Task RemoveProduto(Produto produto);
+        Task AdicionaProduto(ProdutoViewModel produto);
+        Task AtualizaProduto(ProdutoViewModel produto);
+        Task<List<ProdutoViewModel>> ListarProdutoAtivos();
+        Task<ProdutoViewModel> BuscaPorCodigo(int id);
+        Task RemoveProduto(ProdutoViewModel produto);
     }
 }

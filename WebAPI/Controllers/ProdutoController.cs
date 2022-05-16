@@ -1,4 +1,5 @@
 ﻿using Aplicacao.Interfaces;
+using Aplicacao.ViewModels;
 using Entidades.Entidades;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost()]
-        public async Task<IActionResult> AdicionaProduto([FromBody] Produto produto)
+        public async Task<IActionResult> AdicionaProduto([FromBody] ProdutoViewModel produto)
         {
             try
             {
@@ -46,7 +47,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut()]
-        public async Task<IActionResult> AtualizaProduto([FromBody] Produto produto)
+        public async Task<IActionResult> AtualizaProduto([FromBody] ProdutoViewModel produto)
         {
             try
             {
@@ -60,7 +61,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("/api/RemoveProduto")]
-        public async Task<IActionResult> RemoveProduto([FromBody] Produto produto)
+        public async Task<IActionResult> RemoveProduto([FromBody] ProdutoViewModel produto)
         {
             try
             {
