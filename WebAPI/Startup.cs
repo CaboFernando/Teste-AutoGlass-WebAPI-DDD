@@ -1,4 +1,5 @@
 using Aplicacao.Aplicacoes;
+using Aplicacao.AutoMapper;
 using Aplicacao.Interfaces;
 using Dominio.Interfaces;
 using Dominio.Interfaces.Genericos;
@@ -52,7 +53,8 @@ namespace WebAPI
             //Interface Aplicação
             services.AddSingleton<IAplicacaoProduto, AplicacaoProduto>();
 
-
+            //Configuração para o AutoMapper
+            services.AddAutoMapper(typeof(AutoMapperSetup));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

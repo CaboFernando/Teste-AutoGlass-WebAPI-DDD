@@ -1,4 +1,6 @@
 ﻿using Aplicacao.Interfaces;
+using Aplicacao.ViewModels;
+using AutoMapper;
 using Dominio.Interfaces;
 using Dominio.Interfaces.InterfacesServicos;
 using Entidades.Entidades;
@@ -14,38 +16,46 @@ namespace Aplicacao.Aplicacoes
     {
         IProduto _IProduto;
         IServicoProduto _IServicoProduto;
+        private readonly IMapper _mapper;
 
-        public AplicacaoProduto(IProduto produto, IServicoProduto servicoProduto)
+        public AplicacaoProduto(IProduto produto, IServicoProduto servicoProduto, IMapper mapper)
         {
             _IProduto = produto;
             _IServicoProduto = servicoProduto;
+            _mapper = mapper; 
         }
 
         #region métodos customizados
 
-        public async Task AdicionaProduto(Produto produto)
+        public async Task AdicionaProduto(ProdutoViewModel produto)
         {
-            await _IServicoProduto.AdicionaProduto(produto);
+            await _IServicoProduto.AdicionaProduto(_mapper.Map<Produto>(produto));
         }
 
-        public async Task AtualizaProduto(Produto produto)
+        public async Task AtualizaProduto(ProdutoViewModel produto)
         {
-            await _IServicoProduto.AtualizaProduto(produto);
+            await _IServicoProduto.AtualizaProduto(_mapper.Map<Produto>(produto));
         }
 
-        public async Task<List<Produto>> ListarProdutoAtivos()
+        public async Task<List<ProdutoViewModel>> ListarProdutoAtivos()
         {
-            return await _IServicoProduto.ListarProdutoAtivos();
+            List<ProdutoViewModel> produtosViewModel = new List<ProdutoViewModel>();
+
+            IEnumerable<Produto> produtos = await _IServicoProduto.ListarProdutoAtivos();
+
+            produtosViewModel = _mapper.Map<List<ProdutoViewModel>>(produtos);
+
+            return produtosViewModel;
         }
 
-        public async Task<Produto> BuscaPorCodigo(int id)
+        public async Task<ProdutoViewModel> BuscaPorCodigo(int id)
         {
-            return await _IServicoProduto.BuscaPorCodigo(id);
+            return _mapper.Map<ProdutoViewModel>(await _IServicoProduto.BuscaPorCodigo(id));
         }
 
-        public async Task RemoveProduto(Produto produto)
+        public async Task RemoveProduto(ProdutoViewModel produto)
         {
-            await _IServicoProduto.RemoveProduto(produto);
+            await _IServicoProduto.RemoveProduto(_mapper.Map<Produto>(produto));
         }
 
         #endregion
@@ -54,29 +64,35 @@ namespace Aplicacao.Aplicacoes
 
         #region métodos genéricos
 
-        public async Task Adicionar(Produto Object)
+        public async Task Adicionar(ProdutoViewModel Object)
         {
-            await _IProduto.Adicionar(Object);
+            await _IProduto.Adicionar(_mapper.Map<Produto>(Object));
         }
 
-        public async Task Atualizar(Produto Object)
+        public async Task Atualizar(ProdutoViewModel Object)
         {
-            await _IProduto.Atualizar(Object);
+            await _IProduto.Atualizar(_mapper.Map<Produto>(Object));
         }
 
-        public async Task<Produto> BuscarPorId(int Id)
+        public async Task<ProdutoViewModel> BuscarPorId(int Id)
         {
-            return await _IProduto.BuscarPorId(Id);
+            return _mapper.Map<ProdutoViewModel>(await _IProduto.BuscarPorId(Id));
         }
 
-        public async Task Excluir(Produto Object)
+        public async Task Excluir(ProdutoViewModel Object)
         {
-            await _IProduto.Excluir(Object);
+            await _IProduto.Excluir(_mapper.Map<Produto>(Object));
         }
 
-        public async Task<List<Produto>> Listar()
+        public async Task<List<ProdutoViewModel>> Listar()
         {
-            return await _IProduto.Listar();
+            List<ProdutoViewModel> produtosViewModel = new List<ProdutoViewModel>();
+
+            IEnumerable<Produto> produtos = await _IProduto.Listar();
+
+            produtosViewModel = _mapper.Map<List<ProdutoViewModel>>(produtos);
+
+            return produtosViewModel;
         }
 
         #endregion
