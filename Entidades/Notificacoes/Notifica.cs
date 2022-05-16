@@ -47,6 +47,19 @@ namespace Entidades.Notificacoes
             }
             return true;
         }
+        public bool ValidarDataMaiorQueOutra(DateTime primeiroValor, DateTime segundoValor, string nomePrimeiraPropriedade, string nomeSegundaPropriedade)
+        {
+            if (primeiroValor <= segundoValor || (string.IsNullOrWhiteSpace(nomePrimeiraPropriedade) && string.IsNullOrWhiteSpace(nomeSegundaPropriedade)))
+            {
+                Notificacoes.Add(new Notifica
+                {
+                    Mensagem = primeiroValor + " não pode ser menor ou igual á " + segundoValor,
+                    NomePropriedade = nomePrimeiraPropriedade + ", " + nomeSegundaPropriedade
+                });
+                return false;
+            }
+            return true;
+        }
 
     }
 }
