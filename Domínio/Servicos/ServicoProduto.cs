@@ -24,6 +24,8 @@ namespace Dominio.Servicos
             var validarDatas = produto.ValidarDataMaiorQueOutra(produto.DataFrabricacao, produto.DataValidade, "DataFrabricacao", "DataValidade");
             if (validarDescricao && validarDatas)
             {
+                produto.SituacaoProduto = true;
+
                 await _produto.AdicionaProduto(produto);
             }
         }
@@ -35,23 +37,40 @@ namespace Dominio.Servicos
             var validarDatas = produto.ValidarDataMaiorQueOutra(produto.DataFrabricacao, produto.DataValidade, "DataFrabricacao", "DataValidade");
             if (validarCodigo && validarDescricao && validarDatas)
             {
+                produto.SituacaoProduto = true;
+
                 await _produto.AtualizaProduto(produto);
             }
         }
 
         public async Task<List<Produto>> ListarProdutoAtivos()
         {
-            return await _produto.ListarProdutos(x => x.SituacaoProduto);
+            var listaProdutos = await _produto.ListarProdutos(x => x.SituacaoProduto);
+
+            if (listaProdutos.Count > 0)
+                return listaProdutos;
+
+            return new List<Produto>();
         }
 
         public async Task<Produto> BuscaPorCodigo(int id)
         {
-            return await _produto.BuscaPorCodigo(id);
+            Produto produto = new Produto();
+            var validarCodigo = produto.ValidarPropriedadeDecimal(id, "CodigoProduto");
+            if(validarCodigo)
+                return await _produto.BuscaPorCodigo(id);
+
+            return produto;
         }
 
         public async Task<bool> RemoveProduto(Produto produto)
         {
-            return await _produto.RemoveProduto(produto);
+            var existeProduto = await _produto.BuscaPorCodigo(produto.CodigoProduto);
+
+            if (existeProduto.CodigoProduto > 0)
+                return await _produto.RemoveProduto(produto);
+
+            return false;
         }
     }
 }
