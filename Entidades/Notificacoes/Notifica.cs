@@ -60,6 +60,19 @@ namespace Entidades.Notificacoes
             }
             return true;
         }
+        public bool ValidarPropriedadeCodigo(int valor)
+        {
+            if (valor >= 0)
+            {
+                Notificacoes.Add(new Notifica
+                {
+                    Mensagem = "Para adicionar o CodigoProduto deve ser igual a 0",
+                    NomePropriedade = "CodigoProduto"
+                });
+                return false;
+            }
+            return true;
+        }
 
     }
 }

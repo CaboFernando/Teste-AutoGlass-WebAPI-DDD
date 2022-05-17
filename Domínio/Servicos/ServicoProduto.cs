@@ -20,34 +20,39 @@ namespace Dominio.Servicos
 
         public async Task AdicionaProduto(Produto produto)
         {
-            var validarDescricao = produto.ValidarPropriedadesString(produto.DescricaoProduto, "DescricaoProduto");
-            var validarDatas = produto.ValidarDataMaiorQueOutra(produto.DataFrabricacao, produto.DataValidade, "DataFrabricacao", "DataValidade");
-            if (validarDescricao && validarDatas)
-            {
-                produto.SituacaoProduto = true;
+            if (produto.CodigoProduto > 0)
+                throw new Exception("Não é necessário enviar o CodigoProduto para adicionar um novo produto");
 
-                await _produto.AdicionaProduto(produto);
-            }
+            if (string.IsNullOrWhiteSpace(produto.DescricaoProduto))
+                throw new Exception("A DescricaoProduto é obrigatória");
+
+            if (produto.DataFrabricacao >= produto.DataValidade)
+                throw new Exception("A DataFrabricacao não pode ser menor ou igual a DataValidade");
+
+            produto.SituacaoProduto = true;
+            await _produto.AdicionaProduto(produto);
         }
 
         public async Task AtualizaProduto(Produto produto)
         {
-            var validarCodigo = produto.ValidarPropriedadeDecimal(produto.CodigoProduto, "CodigoProduto");
-            var validarDescricao = produto.ValidarPropriedadesString(produto.DescricaoProduto, "DescricaoProduto");
-            var validarDatas = produto.ValidarDataMaiorQueOutra(produto.DataFrabricacao, produto.DataValidade, "DataFrabricacao", "DataValidade");
-            if (validarCodigo && validarDescricao && validarDatas)
-            {
-                produto.SituacaoProduto = true;
+            if (produto.CodigoProduto <= 0)
+                throw new Exception("O CodigoProduto é obrigatório para atualizar um produto");
 
-                await _produto.AtualizaProduto(produto);
-            }
+            if (string.IsNullOrWhiteSpace(produto.DescricaoProduto))
+                throw new Exception("A DescricaoProduto é obrigatória");
+
+            if (produto.DataFrabricacao >= produto.DataValidade)
+                throw new Exception("A DataFrabricacao não pode ser menor ou igual a DataValidade");
+
+            produto.SituacaoProduto = true;
+            await _produto.AtualizaProduto(produto);
         }
 
         public async Task<List<Produto>> ListarProdutoAtivos()
         {
             var listaProdutos = await _produto.ListarProdutos(x => x.SituacaoProduto);
 
-            if (listaProdutos.Count > 0)
+            if (listaProdutos.Count > 0) 
                 return listaProdutos;
 
             return new List<Produto>();
@@ -55,20 +60,18 @@ namespace Dominio.Servicos
 
         public async Task<Produto> BuscaPorCodigo(int id)
         {
-            Produto produto = new Produto();
-            var validarCodigo = produto.ValidarPropriedadeDecimal(id, "CodigoProduto");
-            if(validarCodigo)
-                return await _produto.BuscaPorCodigo(id);
+            if (id <= 0)
+                throw new Exception("O CodigoProduto informado é inválido");
 
-            return produto;
+            return await _produto.BuscaPorCodigo(id);
         }
 
         public async Task<bool> RemoveProduto(Produto produto)
         {
             var existeProduto = await _produto.BuscaPorCodigo(produto.CodigoProduto);
 
-            if (existeProduto.CodigoProduto > 0)
-                return await _produto.RemoveProduto(produto);
+            if (existeProduto == null)
+                throw new Exception("Não existe nenhum produto ativo com o CodigoProduto informado");
 
             return false;
         }
