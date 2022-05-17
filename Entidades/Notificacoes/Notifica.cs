@@ -49,7 +49,7 @@ namespace Entidades.Notificacoes
         }
         public bool ValidarDataMaiorQueOutra(DateTime primeiroValor, DateTime segundoValor, string nomePrimeiraPropriedade, string nomeSegundaPropriedade)
         {
-            if (primeiroValor <= segundoValor || (string.IsNullOrWhiteSpace(nomePrimeiraPropriedade) && string.IsNullOrWhiteSpace(nomeSegundaPropriedade)))
+            if (primeiroValor >= segundoValor || (string.IsNullOrWhiteSpace(nomePrimeiraPropriedade) && string.IsNullOrWhiteSpace(nomeSegundaPropriedade)))
             {
                 Notificacoes.Add(new Notifica
                 {

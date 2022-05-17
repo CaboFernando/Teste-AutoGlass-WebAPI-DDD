@@ -13,18 +13,7 @@ namespace Aplicacao.AutoMapper
     {
         public AutoMapperSetup()
         {
-            #region ViewModel -> Entidade
-
-            CreateMap<ProdutoViewModel, Produto>();
-
-            #endregion
-
-            #region Entidade -> ViewModel 
-
-            CreateMap<Produto, ProdutoViewModel>();
-
-            #endregion
-
+            CreateMap<ProdutoViewModel, Produto>().ReverseMap();
         }
     }
 }
